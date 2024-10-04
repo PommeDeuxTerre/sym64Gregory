@@ -15,4 +15,22 @@
             </div>
         </div>
     </header>
+
+    <!-- Main Content-->
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                {% for section in sections %}
+                    <div class="post-preview">
+                        <a href="{{ path('section', {id: section.id}) }}">
+                            <h2 class="post-title">{{ section.sectionTitle }}</h2>
+                            <h3 class="post-subtitle">{{ section.sectionDescription }}</h3>
+                        </a>
+                    </div>
+                    <!-- Divider-->
+                    <hr class="my-4" />
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
