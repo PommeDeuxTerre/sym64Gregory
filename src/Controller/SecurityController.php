@@ -17,7 +17,7 @@ class SecurityController extends AbstractController
         // si on est déjà connecté et qu'on souhaite revenir sur login
         if($this->getUser()) {
             // on retourne sur l'accueil
-            return $this->redirectToRoute('coucou');
+            return $this->redirectToRoute('homepage');
         }
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -30,6 +30,7 @@ class SecurityController extends AbstractController
             'error' => $error,
             'title' => "Connexion",
             'sections' => $sectionRepository->findAll(),
+            'user' => null,
         ]);
     }
 

@@ -12,10 +12,12 @@ class PublicController extends AbstractController
     #[Route('/', name: 'homepage')]
     public function index(PostRepository $PostRepository): Response
     {
+        $user = $this->getUser();
         $posts = $PostRepository->findAll();
         return $this->render('public/index.html.twig', [
             'controller_name' => 'PublicController',
             'posts' => $posts,
+            'user' => $user,
         ]);
     }
 }
