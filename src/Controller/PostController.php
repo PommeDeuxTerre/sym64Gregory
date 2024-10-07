@@ -24,9 +24,6 @@ class PostController extends AbstractController
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
-        $comments = $CommentRepository->findAll();
-        // filter out the comments of other posts (yes I should have done that in the up line)
-        $comments = array_filter($comments, fn($comment) => $comment->getPost() == $post);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setUser($this->getUser());
@@ -34,6 +31,10 @@ class PostController extends AbstractController
             $entityManager->persist($comment);
             $entityManager->flush();
         }
+
+        $comments = $CommentRepository->findAll();
+        // filter out the comments of other posts (yes I should have done that in the up line)
+        $comments = array_filter($comments, fn($comment) => $comment->getPost() == $post);
 
         return $this->render('post/index.html.twig', [
             'controller_name' => 'PostController',
