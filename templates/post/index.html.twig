@@ -21,8 +21,17 @@
     </header>
 
     <div class="container">
-        <h2>Laisser un commentaire</h2>
+        <h3 class="mb-4">Commentaires</h3>
+        {% for comment in comments %}
+            <p><strong>{{ comment.user.username }}</strong>: {{ comment.commentMessage }}</p>
+        {% endfor %}
     </div>
-    {% include("./comment/_form.html.twig") %}
+
+    {% if user %}
+        <div class="container">
+            <h2>Laisser un commentaire</h2>
+        </div>
+        {% include("./comment/_form.html.twig") %}
+    {% endif %}
 
 {% endblock %}
