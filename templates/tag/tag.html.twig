@@ -1,44 +1,44 @@
 {% extends 'base.html.twig' %}
 
-        {% block body %}
-            <!-- Page Header-->
-            <header class="masthead">
-                <div class="container position-relative px-4 px-lg-5">
-                    <div class="row gx-4 gx-lg-5 justify-content-center">
-                        <div class="col-md-10 col-lg-8 col-xl-7">
-                            <div class="site-heading">
-                                <h1>Fruit Blog</h1>
-                                <span class="subheading">Blog sur les fruits</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Main Content-->
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <h2 class="fs-1">Tag:  '{{ tag.tagName }}'</h2>
-                        {% for post in posts %}
-                            <!-- Post preview-->
-                            <div class="post-preview">
-                                <a href="{{ path('app_post', {id: post.id}) }}">
-                                    <h3 class="post-title">{{ post.postTitle }}</h2>
-                                    <h4 class="post-subtitle">{{ post.postDescription }}</h3>
-                                </a>
-                                <p class="post-meta">
-                                    Posté par
-                                    <a href="#!">{{ post.user.username }}</a>
-                                    le {{ post.postDateCreated|date('d-m-Y') }}
-                                </p>
-                            </div>
-                            <!-- Divider-->
-                            <hr class="my-4" />
-                        {% endfor %}
-                        <!-- Pager-->
-                        <!--<div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>-->
+{% block body %}
+    <!-- Page Header-->
+    <header class="masthead">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Fruit Blog</h1>
+                        <span class="subheading">Blog sur les fruits</span>
                     </div>
                 </div>
             </div>
-        {% endblock %}
+        </div>
+    </header>
+
+    <!-- Main Content-->
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <h2 class="fs-1">Tag:  '{{ tag.tagName }}'</h2>
+                {% for post in posts %}
+                    <!-- Post preview-->
+                    <div class="post-preview">
+                        <a href="{{ path('app_post', {id: post.id}) }}">
+                            <h3 class="post-title">{{ post.postTitle }}</h2>
+                            <h4 class="post-subtitle">{{ post.postDescription }}</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posté par
+                            <a href="#!">{{ post.user.username }}</a>
+                            le {{ post.postDateCreated|date('d-m-Y') }}
+                        </p>
+                    </div>
+                    <!-- Divider-->
+                    <hr class="my-4" />
+                {% endfor %}
+                <!-- Pager-->
+                <!--<div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>-->
+            </div>
+        </div>
+    </div>
+{% endblock %}
