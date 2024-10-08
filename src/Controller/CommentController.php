@@ -36,7 +36,7 @@ final class CommentController extends AbstractController
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
         $comment = new Comment();
-        $form = $this->createForm(CommentType::class, $comment);
+        $form = $this->createForm(EditCommentType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

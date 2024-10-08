@@ -9,16 +9,20 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="post-heading">
-                        <h1>New Comment</h1>
+                        <h1>Nouveau Commentaire</h1>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <h1>Create new Comment</h1>
+    <div class="container">
+        <h2>Créer un nouveau commentaire</h2>
+    </div>
 
-    {{ include('comment/_form.html.twig') }}
+    {{ include('comment/_edit_form.html.twig') }}
 
-    <a href="{{ path('app_comment_index') }}">back to list</a>
+    <div class="container">
+        <a href="{{ path('app_comment_index') }}">Retour à la liste</a>
+    </div>
 {% endblock %}
