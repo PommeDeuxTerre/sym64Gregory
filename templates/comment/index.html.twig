@@ -16,7 +16,7 @@
         </div>
     </header>
 
-    <div class="container px-4 px-lg-5">
+    <div class="container-fluid px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <h1>Commentaires</h1>
@@ -25,6 +25,8 @@
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Post</th>
+                            <th>Utilisateur</th>
                             <th>Message</th>
                             <th>Date de création</th>
                             <th>Publié</th>
@@ -35,6 +37,8 @@
                     {% for comment in comments %}
                         <tr>
                             <td>{{ comment.id }}</td>
+                            <td>{{ comment.post.postTitle }}</td>
+                            <td>{{ comment.user.username }}</td>
                             <td>{{ comment.commentMessage }}</td>
                             <td>{{ comment.commentDateCreated ? comment.commentDateCreated|date('d/m/Y H:i:s') : '' }}</td>
                             <td>{{ comment.commentPublished ? 'Oui' : 'Non' }}</td>
