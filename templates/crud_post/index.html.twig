@@ -1,43 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Post index{% endblock %}
+{% block title %}Post CRUD{% endblock %}
 
 {% block body %}
-    <h1>Post index</h1>
+    <!-- Page Header-->
+    <header class="masthead">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Post CRUD</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>PostTitle</th>
-                <th>PostDescription</th>
-                <th>PostDateCreated</th>
-                <th>PostDatePublished</th>
-                <th>PostPublished</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for post in posts %}
-            <tr>
-                <td>{{ post.id }}</td>
-                <td>{{ post.postTitle }}</td>
-                <td>{{ post.postDescription }}</td>
-                <td>{{ post.postDateCreated ? post.postDateCreated|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ post.postDatePublished ? post.postDatePublished|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ post.postPublished ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_crud_post_show', {'id': post.id}) }}">show</a>
-                    <a href="{{ path('app_crud_post_edit', {'id': post.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="container-fluid px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <h1>Post CRUD</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Titre</th>
+                            <th>Description</th>
+                            <th>Date de création</th>
+                            <th>Date de Publication</th>
+                            <th>Publié</th>
+                            <th>actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for post in posts %}
+                        <tr>
+                            <td>{{ post.id }}</td>
+                            <td>{{ post.postTitle }}</td>
+                            <td>{{ post.postDescription }}</td>
+                            <td>{{ post.postDateCreated ? post.postDateCreated|date('d/m/Y H:i:s') : '' }}</td>
+                            <td>{{ post.postDatePublished ? post.postDatePublished|date('d/m/Y H:i:s') : '' }}</td>
+                            <td>{{ post.postPublished ? 'Oui' : 'Non' }}</td>
+                            <td>
+                                <a href="{{ path('app_crud_post_show', {'id': post.id}) }}">Voir</a>
+                                <a href="{{ path('app_crud_post_edit', {'id': post.id}) }}">Modifier</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7">Aucune donné trouvée</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
 
-    <a href="{{ path('app_crud_post_new') }}">Create new</a>
+                <a href="{{ path('app_crud_post_new') }}">Créer nouveau</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
