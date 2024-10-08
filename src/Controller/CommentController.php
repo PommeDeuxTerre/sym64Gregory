@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Form\CommentType;
+use App\Form\EditCommentType;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,6 +19,9 @@ final class CommentController extends AbstractController
     public function index(CommentRepository $commentRepository): Response
     {
         $user = $this->getUser();
+        if (!$user){
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
         return $this->render('comment/index.html.twig', [
             'comments' => $commentRepository->findAll(),
             'user' => $user,
@@ -28,6 +32,9 @@ final class CommentController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
+        if (!$user){
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
@@ -51,6 +58,9 @@ final class CommentController extends AbstractController
     public function show(Comment $comment): Response
     {
         $user = $this->getUser();
+        if (!$user){
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
         return $this->render('comment/show.html.twig', [
             'comment' => $comment,
             'user' => $user,
@@ -61,7 +71,10 @@ final class CommentController extends AbstractController
     public function edit(Request $request, Comment $comment, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        $form = $this->createForm(CommentType::class, $comment);
+        if (!$user){
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
+        $form = $this->createForm(EditCommentType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -80,6 +93,9 @@ final class CommentController extends AbstractController
     #[Route('/{id}', name: 'app_comment_delete', methods: ['POST'])]
     public function delete(Request $request, Comment $comment, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->getUser()){
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
         if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($comment);
             $entityManager->flush();

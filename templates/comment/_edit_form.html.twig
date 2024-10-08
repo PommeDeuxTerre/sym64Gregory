@@ -1,0 +1,24 @@
+<div class="container">
+    {{ form_start(form) }}
+        <div class="form-group">
+            {{ form_widget(form.commentMessage) }}
+            {{ form_errors(form.commentMessage) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.user, "Utilisateur: ") }}
+            {{ form_widget(form.user) }}
+            {{ form_errors(form.user) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.post, "Post: ") }}
+            {{ form_widget(form.post) }}
+            {{ form_errors(form.post) }}
+        </div>
+        <div class="form-group">
+            {{ form_widget(form.commentPublished) }}
+            {{ form_label(form.commentPublished, "Publié") }}
+            {{ form_errors(form.commentPublished) }}
+        </div>
+        <button class="btn btn-primary">{{ button_label|default('Commenter') }}</button>
+    {{ form_end(form) }}
+</div>
