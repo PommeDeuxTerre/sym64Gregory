@@ -2,10 +2,9 @@
 
 namespace App\Form;
 
-use App\Entity\Post;
 use App\Entity\Section;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,12 +14,7 @@ class SectionType extends AbstractType
     {
         $builder
             ->add('sectionTitle')
-            ->add('sectionDescription')
-            ->add('posts', EntityType::class, [
-                'class' => Post::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
+            ->add('sectionDescription', TextareaType::class, ['attr' => ['placeholder' => 'Votre Description', 'rows' => 5, 'cols' => 40]])
         ;
     }
 

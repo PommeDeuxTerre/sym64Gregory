@@ -1,4 +1,18 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="container">
+    {{ form_start(form) }}
+        <div class="form-group mb-2">
+            {{ form_label(form.sectionTitle, "Titre: ") }}
+            <br>
+            {{ form_widget(form.sectionTitle, {'attr': {'class': 'mt-1'}}) }}
+            {{ form_errors(form.sectionTitle) }}
+        </div>
+        <div class="form-group mb-2">
+            {{ form_label(form.sectionDescription, "Description: ") }}
+            <br>
+            {{ form_widget(form.sectionDescription, {'attr': {'class': 'mt-1'}}) }}
+            {{ form_errors(form.sectionDescription) }}
+        </div>
+
+        <button class="btn">{{ button_label|default('Créer') }}</button>
+    {{ form_end(form) }}
+</div>
