@@ -28,12 +28,32 @@
                             <td>{{ post.id }}</td>
                         </tr>
                         <tr>
+                            <th>Autheur</th>
+                            <td>{{ post.user.username }}</td>
+                        </tr>
+                        <tr>
                             <th>Titre</th>
                             <td>{{ post.postTitle }}</td>
                         </tr>
                         <tr>
                             <th>Description</th>
                             <td>{{ post.postDescription }}</td>
+                        </tr>
+                        <tr>
+                            <th>Tags</th>
+                            <td>
+                                {% for tag in post.tags %}
+                                <a href="{{ path('tag', {id: tag.id}) }}">{{ tag.tagName }}</a>{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Sections</th>
+                            <td>
+                                {% for section in post.sections %}
+                                <a href="{{ path('tag', {id: section.id}) }}">{{ section.sectionTitle }}</a>{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
                         </tr>
                         <tr>
                             <th>Date de création</th>
