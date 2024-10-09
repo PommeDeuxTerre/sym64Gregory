@@ -1,30 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Section{% endblock %}
+{% block title %}Section: {{ section.sectionTitle }}{% endblock %}
 
 {% block body %}
-    <h1>Section</h1>
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('assets/img/post-bg.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="post-heading">
+                        <h1 class="text-center">Section: {{ section.sectionTitle }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ section.id }}</td>
-            </tr>
-            <tr>
-                <th>SectionTitle</th>
-                <td>{{ section.sectionTitle }}</td>
-            </tr>
-            <tr>
-                <th>SectionDescription</th>
-                <td>{{ section.sectionDescription }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="container-fluid px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <h1>Section</h1>
 
-    <a href="{{ path('app_crud_section_index') }}">back to list</a>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ section.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Titre</th>
+                            <td>{{ section.sectionTitle }}</td>
+                        </tr>
+                        <tr>
+                        <th>Description</th>
+                            <td>{{ section.sectionDescription }}</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-    <a href="{{ path('app_crud_section_edit', {'id': section.id}) }}">edit</a>
+                <a href="{{ path('app_crud_section_index') }}">Retour à la liste</a>
 
-    {{ include('crud_section/_delete_form.html.twig') }}
+                <a href="{{ path('app_crud_section_edit', {'id': section.id}) }}">Modifier</a>
+
+                {{ include('crud_section/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
