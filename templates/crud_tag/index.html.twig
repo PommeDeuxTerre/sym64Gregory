@@ -1,35 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tag index{% endblock %}
+{% block title %}Tag CRUD{% endblock %}
 
 {% block body %}
-    <h1>Tag index</h1>
+    <!-- Page Header-->
+    <header class="masthead">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Tag CRUD</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>TagName</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for tag in tags %}
-            <tr>
-                <td>{{ tag.id }}</td>
-                <td>{{ tag.tagName }}</td>
-                <td>
-                    <a href="{{ path('app_crud_tag_show', {'id': tag.id}) }}">show</a>
-                    <a href="{{ path('app_crud_tag_edit', {'id': tag.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_crud_tag_new') }}">Create new</a>
+    <!-- Main Content-->
+    <div class="container-fluid px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <h1>Tag CRUD</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nom</th>
+                            <th>actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for tag in tags %}
+                        <tr>
+                            <td>{{ tag.id }}</td>
+                            <td>{{ tag.tagName }}</td>
+                            <td>
+                                <a href="{{ path('app_crud_tag_show', {'id': tag.id}) }}">Voir</a>
+                                <a href="{{ path('app_crud_tag_edit', {'id': tag.id}) }}">Modifier</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">Aucun tag pour le moment</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <a href="{{ path('app_crud_tag_new') }}">Créer nouveau</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
