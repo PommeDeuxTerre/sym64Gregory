@@ -1,4 +1,11 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="container">
+    {{ form_start(form) }}
+        <div class="form-group mb-2">
+            {{ form_label(form.tagName, "Nom: ") }}
+            <br>
+            {{ form_widget(form.tagName, {'attr': {'class': 'mt-1'}}) }}
+            {{ form_errors(form.tagName) }}
+        </div>
+        <button class="btn btn-primary">{{ button_label|default('Créer') }}</button>
+    {{ form_end(form) }}
+</div>
