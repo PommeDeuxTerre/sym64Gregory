@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Form\NewPostType;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,12 +30,13 @@ final class CrudPostController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $post = new Post();
-        $form = $this->createForm(PostType::class, $post);
+        $form = $this->createForm(NewPostType::class, $post);
         $form->handleRequest($request);
         $user = $this->getUser();
         if (!$user)return $this->redirectToRoute('app_login');
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $post->setUser($this->getUser());
             $entityManager->persist($post);
             $entityManager->flush();
 
