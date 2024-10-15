@@ -19,7 +19,7 @@ final class CrudTagController extends AbstractController
     {
         $user = $this->getUser();
         if (!$user){
-            return $this->redirectToRoute('app_crud_tag_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('crud_tag/index.html.twig', [
             'tags' => $tagRepository->findAll(),
@@ -32,7 +32,7 @@ final class CrudTagController extends AbstractController
     {
         $user = $this->getUser();
         if (!$user){
-            return $this->redirectToRoute('app_crud_tag_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
         $tag = new Tag();
         $form = $this->createForm(TagType::class, $tag);
@@ -57,7 +57,7 @@ final class CrudTagController extends AbstractController
     {
         $user = $this->getUser();
         if (!$user){
-            return $this->redirectToRoute('app_crud_tag_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('crud_tag/show.html.twig', [
             'tag' => $tag,
@@ -70,7 +70,7 @@ final class CrudTagController extends AbstractController
     {
         $user = $this->getUser();
         if (!$user){
-            return $this->redirectToRoute('app_crud_tag_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
@@ -92,7 +92,7 @@ final class CrudTagController extends AbstractController
     public function delete(Request $request, Tag $tag, EntityManagerInterface $entityManager): Response
     {
         if (!$this->getUser()){
-            return $this->redirectToRoute('app_crud_tag_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
         if ($this->isCsrfTokenValid('delete'.$tag->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($tag);
