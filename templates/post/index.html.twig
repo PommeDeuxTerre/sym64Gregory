@@ -8,7 +8,6 @@
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="post-heading">
                         <h1>{{ post.postTitle }}</h1>
-                        <h2 class="subheading">{{ post.postDescription }}</h2>
                         <span class="meta">
                             Posté par
                             <a href="#!">{{ post.user.username }}</a>
@@ -21,6 +20,10 @@
     </header>
 
     <div class="container">
+        <h2>{{ post.postTitle }}</h2>
+        <p class="fs-4">
+            {{ post.postDescription }}
+        </p>
         <h3 class="mb-4">Commentaires</h3>
         {% for comment in comments %}
             <p><strong>{{ comment.user.username }}</strong>: {{ comment.commentMessage }}</p>
