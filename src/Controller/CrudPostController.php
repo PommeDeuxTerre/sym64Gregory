@@ -19,7 +19,7 @@ final class CrudPostController extends AbstractController
     public function index(PostRepository $postRepository): Response
     {
         $user = $this->getUser();
-        if (!$user)return $this->redirectToRoute('app_login');
+        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         return $this->render('crud_post/index.html.twig', [
             'posts' => $postRepository->findAll(),
             'user' => $user,
@@ -29,11 +29,11 @@ final class CrudPostController extends AbstractController
     #[Route('/new', name: 'app_crud_post_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         $post = new Post();
         $form = $this->createForm(NewPostType::class, $post);
         $form->handleRequest($request);
-        $user = $this->getUser();
-        if (!$user)return $this->redirectToRoute('app_login');
 
         if ($form->isSubmitted() && $form->isValid()) {
             $post->setUser($this->getUser());
@@ -54,7 +54,7 @@ final class CrudPostController extends AbstractController
     public function show(Post $post): Response
     {
         $user = $this->getUser();
-        if (!$user)return $this->redirectToRoute('app_login');
+        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         return $this->render('crud_post/show.html.twig', [
             'post' => $post,
             'user' => $user,
@@ -65,7 +65,7 @@ final class CrudPostController extends AbstractController
     public function edit(Request $request, Post $post, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        if (!$user)return $this->redirectToRoute('app_login');
+        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
@@ -85,7 +85,8 @@ final class CrudPostController extends AbstractController
     #[Route('/{id}', name: 'app_crud_post_delete', methods: ['POST'])]
     public function delete(Request $request, Post $post, EntityManagerInterface $entityManager): Response
     {
-        if (!$this->getUser())return $this->redirectToRoute('app_login');
+        $user = $this->getUser();
+        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($post);
             $entityManager->flush();

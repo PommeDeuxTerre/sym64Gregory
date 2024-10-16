@@ -18,9 +18,7 @@ final class CrudSectionController extends AbstractController
     public function index(SectionRepository $sectionRepository): Response
     {
         $user = $this->getUser();
-        if (!$user){
-            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
-        }
+        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         return $this->render('crud_section/index.html.twig', [
             'sections' => $sectionRepository->findAll(),
             'user' => $user,
@@ -31,9 +29,7 @@ final class CrudSectionController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        if (!$user){
-            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
-        }
+        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         $section = new Section();
         $form = $this->createForm(SectionType::class, $section);
         $form->handleRequest($request);
@@ -56,9 +52,7 @@ final class CrudSectionController extends AbstractController
     public function show(Section $section): Response
     {
         $user = $this->getUser();
-        if (!$user){
-            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
-        }
+        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         return $this->render('crud_section/show.html.twig', [
             'section' => $section,
             'user' => $user,
@@ -69,9 +63,7 @@ final class CrudSectionController extends AbstractController
     public function edit(Request $request, Section $section, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        if (!$user){
-            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
-        }
+        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         $form = $this->createForm(SectionType::class, $section);
         $form->handleRequest($request);
 
@@ -91,9 +83,8 @@ final class CrudSectionController extends AbstractController
     #[Route('/{id}', name: 'app_crud_section_delete', methods: ['POST'])]
     public function delete(Request $request, Section $section, EntityManagerInterface $entityManager): Response
     {
-        if (!$this->getUser()){
-            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
-        }
+        $user = $this->getUser();
+        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         if ($this->isCsrfTokenValid('delete'.$section->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($section);
             $entityManager->flush();

@@ -12,7 +12,7 @@ class CrudController extends AbstractController
     public function index(): Response
     {
         $user = $this->getUser();
-        if (!$user)return $this->redirectToRoute('app_login');
+        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login');
         return $this->render('crud/index.html.twig', [
             'controller_name' => 'CrudController',
             'user' => $user,
