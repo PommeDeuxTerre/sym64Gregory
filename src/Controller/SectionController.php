@@ -27,7 +27,7 @@ class SectionController extends AbstractController
     {
         $user = $this->getUser();
         $section = $SectionRepository->find($id);
-        $posts = $PostRepository->findAll();
+        $posts = $PostRepository->findAllPublished();
         // filter the posts that doesn't contain the section (yes I should have done that in the up line)
         $posts = array_filter($posts, fn($post) => in_array($section, $post->getSections()->toArray()));
         return $this->render('section/section.html.twig', [

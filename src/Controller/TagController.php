@@ -27,7 +27,7 @@ class TagController extends AbstractController
     {
         $user = $this->getUser();
         $tag = $TagRepository->find($id);
-        $posts = $PostRepository->findAll();
+        $posts = $PostRepository->findAllPublished();
         // filter the posts that doesn't contain the section (yes I should have done that in the up line)
         $posts = array_filter($posts, fn($post) => in_array($tag, $post->getTags()->toArray()));
         return $this->render('tag/tag.html.twig', [

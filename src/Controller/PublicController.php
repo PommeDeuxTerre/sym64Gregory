@@ -13,7 +13,7 @@ class PublicController extends AbstractController
     public function index(PostRepository $PostRepository): Response
     {
         $user = $this->getUser();
-        $posts = $PostRepository->findAll();
+        $posts = $PostRepository->findAllPublished();
         return $this->render('public/index.html.twig', [
             'controller_name' => 'PublicController',
             'posts' => $posts,
