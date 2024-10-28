@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Article;
 use App\Entity\Section;
 use App\Entity\Tag;
+use Cocur\Slugify\Slugify;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -24,6 +25,7 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        $slugify = new Slugify();
         $faker = Faker::create('fr-FR');
         // users
         // admin
@@ -69,6 +71,18 @@ class AppFixtures extends Fixture
             $manager->persist($user);
         }
 
+        // sections
+        for ($i=1;$i<=6;$i++){
+            $section = new Section();
+
+            $title = ucfirst($faker->words(rand(1, 2),true));
+            $section->setSectionTitle($title);
+            $section->setSectionDetail($faker->paragraphs(1,true));
+            $section->setSectionSlug($slugify->slugify($title));
+            $sections[] = $section;
+            $manager->persist($section);
+        }
+
         /*
         // tags
         for ($i=1;$i<=20;$i++){
@@ -78,15 +92,6 @@ class AppFixtures extends Fixture
             $manager->persist($tag);
         }
 
-        // sections
-        for ($i=1;$i<=20;$i++){
-            $section = new Section();
-
-            $section->setSectionTitle(ucfirst($faker->words(rand(1, 2),true)));
-            $section->setSectionDescription($faker->paragraphs(1,true));
-            $sections[] = $section;
-            $manager->persist($section);
-        }
 
         // articles
         for ($i=1;$i<=100;$i++){
