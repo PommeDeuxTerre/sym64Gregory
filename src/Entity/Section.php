@@ -27,14 +27,14 @@ class Section
     private ?string $sectionDescription = null;
 
     /**
-     * @var Collection<int, Post>
+     * @var Collection<int, Article>
      */
-    #[ORM\ManyToMany(targetEntity: Post::class, mappedBy: 'sections')]
-    private Collection $posts;
+    #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'sections')]
+    private Collection $articles;
 
     public function __construct()
     {
-        $this->posts = new ArrayCollection();
+        $this->articles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,27 +67,27 @@ class Section
     }
 
     /**
-     * @return Collection<int, Post>
+     * @return Collection<int, Article>
      */
-    public function getPosts(): Collection
+    public function getArticles(): Collection
     {
-        return $this->posts;
+        return $this->articles;
     }
 
-    public function addPost(Post $post): static
+    public function addArticle(Article $article): static
     {
-        if (!$this->posts->contains($post)) {
-            $this->posts->add($post);
-            $post->addSection($this);
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->addSection($this);
         }
 
         return $this;
     }
 
-    public function removePost(Post $post): static
+    public function removeArticle(Article $article): static
     {
-        if ($this->posts->removeElement($post)) {
-            $post->removeSection($this);
+        if ($this->articles->removeElement($article)) {
+            $article->removeSection($this);
         }
 
         return $this;

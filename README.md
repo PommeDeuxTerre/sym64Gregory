@@ -30,7 +30,7 @@ Ouvrez `Wamp` et lancez les services `Apache` et `MySQL`.
 Les `Entity` récupérés depuis le projet sont stockées dans le dossier `src/Entity`:
 
 - `Comment.php`
-- `Post.php`
+- `Article.php`
 - `Section.php`
 - `Tag.php`
 - `User.php`
@@ -38,7 +38,7 @@ Les `Entity` récupérés depuis le projet sont stockées dans le dossier `src/E
 Les `Repository` récupérés depuis le projet sont stockés dans le dossier `src/Repository`:
 
 - `CommentRepository.php`
-- `PostRepository.php`
+- `ArticleRepository.php`
 - `SectionRepository.php`
 - `TagRepository.php`
 - `UserRepository.php`

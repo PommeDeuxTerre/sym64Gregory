@@ -2,26 +2,24 @@
 
 namespace App\Repository;
 
-use App\Entity\Post;
-use App\Entity\User;
+use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use function Symfony\Component\String\u;
 
 /**
- * @extends ServiceEntityRepository<Post>
+ * @extends ServiceEntityRepository<Article>
  */
-class PostRepository extends ServiceEntityRepository
+class ArticleRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Post::class);
+        parent::__construct($registry, Article::class);
     }
 
 
 
     /**
-     * @return Post[] Returns an array of Post objects
+     * @return Article[] Returns an array of Article objects
      */
     public function findAll(): array
     {
@@ -33,12 +31,12 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Post[] Returns an array of Post objects
+     * @return Article[] Returns an array of Article objects
      */
     public function findAllPublished(): array
     {
         return $this->createQueryBuilder('p')
-            ->where('p.postPublished = 1')
+            ->where('p.published = 1')
             ->orderBy('p.id', 'ASC')
             ->getQuery()
             ->getResult()
@@ -46,13 +44,13 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Post[] Returns an array of Post objects
+     * @return Article[] Returns an array of Article objects
      */
-    public function getPostById(int $id): ?Post
+    public function getArticleById(int $id): ?Article
     {
         return $this->find($id);
     }
-    //    public function findOneBySomeField($value): ?Post
+    //    public function findOneBySomeField($value): ?Article
     //    {
     //        return $this->createQueryBuilder('p')
     //            ->andWhere('p.exampleField = :val')

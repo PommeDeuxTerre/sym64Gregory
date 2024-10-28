@@ -2,15 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\PostRepository;
-use DateTime;
+use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PostRepository::class)]
-class Post
+#[ORM\Entity(repositoryClass: ArticleRepository::class)]
+class Article
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -24,57 +23,54 @@ class Post
     private ?int $id = null;
 
     #[ORM\Column(length: 160)]
-    private ?string $postTitle = null;
-
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $postDescription = null;
-
-    #[ORM\Column(
-        type: Types::DATETIME_MUTABLE,
-        # valeur par défaut CURRENT_TIMESTAMP
-        options: [
-            'default' => 'CURRENT_TIMESTAMP',
-        ]
-    )]
-    private ?\DateTimeInterface $postDateCreated = null;
-
-    #[ORM\Column(
-        # il peut être null
-        type: Types::DATETIME_MUTABLE,
-        nullable: true)]
-    private ?\DateTimeInterface $postDatePublished = null;
-
-    #[ORM\Column]
-    private ?bool $postPublished = null;
+    private ?string $title = null;
 
     /**
      * @var Collection<int, Section>
      */
-    #[ORM\ManyToMany(targetEntity: Section::class, inversedBy: 'posts')]
+    #[ORM\ManyToMany(targetEntity: Section::class, inversedBy: 'articles')]
     private Collection $sections;
 
     /**
      * @var Collection<int, Tag>
      */
-    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'posts', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'articles', cascade: ['persist'])]
     private Collection $tags;
 
     /**
      * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'post')]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'article')]
     private Collection $comments;
 
-    #[ORM\ManyToOne(inversedBy: 'posts')]
+    #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\Column(length: 162)]
+    private ?string $title_slug = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $text = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, options: [
+        'default' => 'CURRENT_TIMESTAMP'
+      ])]
+    private ?\DateTimeInterface $article_date_create = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $article_date_posted = null;
+
+    #[ORM\Column(type: Types::BOOLEAN, options: [
+        'default' => '0'
+      ])]
+    private ?bool $published = null;
 
     public function __construct()
     {
         $this->sections = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->postDateCreated = new DateTime();
     }
 
     public function getId(): ?int
@@ -82,62 +78,14 @@ class Post
         return $this->id;
     }
 
-    public function getPostTitle(): ?string
+    public function getTitle(): ?string
     {
-        return $this->postTitle;
+        return $this->title;
     }
 
-    public function setPostTitle(string $postTitle): static
+    public function setTitle(string $title): static
     {
-        $this->postTitle = $postTitle;
-
-        return $this;
-    }
-
-    public function getPostDescription(): ?string
-    {
-        return $this->postDescription;
-    }
-
-    public function setPostDescription(string $postDescription): static
-    {
-        $this->postDescription = $postDescription;
-
-        return $this;
-    }
-
-    public function getPostDateCreated(): ?\DateTimeInterface
-    {
-        return $this->postDateCreated;
-    }
-
-    public function setPostDateCreated(\DateTimeInterface $postDateCreated): static
-    {
-        $this->postDateCreated = $postDateCreated;
-
-        return $this;
-    }
-
-    public function getPostDatePublished(): ?\DateTimeInterface
-    {
-        return $this->postDatePublished;
-    }
-
-    public function setPostDatePublished(?\DateTimeInterface $postDatePublished): static
-    {
-        $this->postDatePublished = $postDatePublished;
-
-        return $this;
-    }
-
-    public function isPostPublished(): ?bool
-    {
-        return $this->postPublished;
-    }
-
-    public function setPostPublished(bool $postPublished): static
-    {
-        $this->postPublished = $postPublished;
+        $this->title = $title;
 
         return $this;
     }
@@ -202,7 +150,7 @@ class Post
     {
         if (!$this->comments->contains($comment)) {
             $this->comments->add($comment);
-            $comment->setPost($this);
+            $comment->setArticle($this);
         }
 
         return $this;
@@ -212,8 +160,8 @@ class Post
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getPost() === $this) {
-                $comment->setPost(null);
+            if ($comment->getArticle() === $this) {
+                $comment->setArticle(null);
             }
         }
 
@@ -228,6 +176,66 @@ class Post
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getTitleSlug(): ?string
+    {
+        return $this->title_slug;
+    }
+
+    public function setTitleSlug(string $title_slug): static
+    {
+        $this->title_slug = $title_slug;
+
+        return $this;
+    }
+
+    public function getText(): ?string
+    {
+        return $this->text;
+    }
+
+    public function setText(string $text): static
+    {
+        $this->text = $text;
+
+        return $this;
+    }
+
+    public function getArticleDateCreate(): ?\DateTimeInterface
+    {
+        return $this->article_date_create;
+    }
+
+    public function setArticleDateCreate(\DateTimeInterface $article_date_create): static
+    {
+        $this->article_date_create = $article_date_create;
+
+        return $this;
+    }
+
+    public function getArticleDateArticleed(): ?\DateTimeInterface
+    {
+        return $this->article_date_posted;
+    }
+
+    public function setArticleDateArticleed(?\DateTimeInterface $article_date_posted): static
+    {
+        $this->article_date_posted = $article_date_posted;
+
+        return $this;
+    }
+
+    public function getPublished(): ?bool
+    {
+        return $this->published;
+    }
+
+    public function setPublished(bool $published): static
+    {
+        $this->published = $published;
 
         return $this;
     }

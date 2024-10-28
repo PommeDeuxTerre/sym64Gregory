@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouveau Post{% endblock %}
+{% block title %}Modifier Article{% endblock %}
 
 {% block body %}
     <!-- Page Header-->
@@ -9,7 +9,7 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="site-heading">
-                        <h1>Créer un nouveau post</h1>
+                        <h1>Modifier Le Article</h1>
                     </div>
                 </div>
             </div>
@@ -20,13 +20,12 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="container mt-3">
-                    <h1>Créer un nouveau post</h1>
+                    <h1>Modifier Le Article</h1>
                 </div>
-
-                {{ include('crud_post/_new_form.html.twig') }}
-
+                {{ include('crud_article/_form.html.twig', {'button_label': 'Modifier'}) }}
                 <div class="container mt-3">
-                    <a href="{{ path('app_crud_post_index') }}">Retour à la liste</a>
+                    <a href="{{ path('app_crud_article_index') }}">Retour à la liste</a>
+                    {{ include('crud_article/_delete_form.html.twig') }}
                 </div>
             </div>
         </div>

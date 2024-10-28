@@ -36,10 +36,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     /**
-     * @var Collection<int, Post>
+     * @var Collection<int, Article>
      */
-    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'user')]
-    private Collection $posts;
+    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'user')]
+    private Collection $articles;
 
     /**
      * @var Collection<int, Comment>
@@ -64,7 +64,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->posts = new ArrayCollection();
+        $this->articles = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
 
@@ -144,29 +144,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Post>
+     * @return Collection<int, Article>
      */
-    public function getPosts(): Collection
+    public function getArticles(): Collection
     {
-        return $this->posts;
+        return $this->articles;
     }
 
-    public function addPost(Post $post): static
+    public function addArticle(Article $article): static
     {
-        if (!$this->posts->contains($post)) {
-            $this->posts->add($post);
-            $post->setUser($this);
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->setUser($this);
         }
 
         return $this;
     }
 
-    public function removePost(Post $post): static
+    public function removeArticle(Article $article): static
     {
-        if ($this->posts->removeElement($post)) {
+        if ($this->articles->removeElement($article)) {
             // set the owning side to null (unless already changed)
-            if ($post->getUser() === $this) {
-                $post->setUser(null);
+            if ($article->getUser() === $this) {
+                $article->setUser(null);
             }
         }
 

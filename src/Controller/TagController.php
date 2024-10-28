@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\PostRepository;
+use App\Repository\ArticleRepository;
 use App\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,11 +23,11 @@ class TagController extends AbstractController
     }
 
     #[Route('/tag/{id}', name: 'tag')]
-    public function tag(int $id, TagRepository $TagRepository, PostRepository $PostRepository): Response
+    public function tag(int $id, TagRepository $TagRepository, ArticleRepository $ArticleRepository): Response
     {
         $user = $this->getUser();
         $tag = $TagRepository->find($id);
-        $posts = $PostRepository->findAllPublished();
+        $posts = $ArticleRepository->findAllPublished();
         // filter the posts that doesn't contain the section (yes I should have done that in the up line)
         $posts = array_filter($posts, fn($post) => in_array($tag, $post->getTags()->toArray()));
         return $this->render('tag/tag.html.twig', [

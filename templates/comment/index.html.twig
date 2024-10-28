@@ -25,7 +25,7 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Post</th>
+                            <th>Article</th>
                             <th>Utilisateur</th>
                             <th>Message</th>
                             <th>Date de création</th>
@@ -37,7 +37,7 @@
                     {% for comment in comments %}
                         <tr>
                             <td>{{ comment.id }}</td>
-                            <td>{{ comment.post.postTitle }}</td>
+                            <td>{{ comment.article.Title }}</td>
                             <td>{{ comment.user.username }}</td>
                             <td>{{ comment.commentMessage }}</td>
                             <td>{{ comment.commentDateCreated ? comment.commentDateCreated|date('d/m/Y H:i:s') : '' }}</td>

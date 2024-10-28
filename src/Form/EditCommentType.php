@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Comment;
-use App\Entity\Post;
+use App\Entity\Article;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -20,9 +20,9 @@ class EditCommentType extends AbstractType
             'class' => user::class,
             'choice_label' => 'username',
         ])
-        ->add('post', entitytype::class, [
-            'class' => Post::class,
-            'choice_label' => 'postTitle',
+        ->add('article', entitytype::class, [
+            'class' => Article::class,
+            'choice_label' => 'title',
         ])
         ->add('commentPublished');
     }

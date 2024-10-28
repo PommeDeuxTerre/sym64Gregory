@@ -20,24 +20,24 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <h2 class="fs-1">Tag:  '{{ tag.tagName }}'</h2>
-                {% for post in posts %}
-                    <!-- Post preview-->
-                    <div class="post-preview">
-                        <a href="{{ path('app_post', {id: post.id}) }}">
-                            <h3 class="post-title">{{ post.postTitle }}</h2>
-                            <h4 class="post-subtitle">{{ post.postDescription }}</h3>
+                {% for article in articles %}
+                    <!-- Article preview-->
+                    <div class="article-preview">
+                        <a href="{{ path('app_article', {id: article.id}) }}">
+                            <h3 class="article-title">{{ article.title }}</h2>
+                            <h4 class="article-subtitle">{{ article.articleDescription }}</h3>
                         </a>
-                        <p class="post-meta">
+                        <p class="article-meta">
                             Posté par
-                            <a href="#!">{{ post.user.username }}</a>
-                            le {{ post.postDateCreated|date('d-m-Y') }}
+                            <a href="#!">{{ article.user.username }}</a>
+                            le {{ article.articleDateCreated|date('d-m-Y') }}
                         </p>
                     </div>
                     <!-- Divider-->
                     <hr class="my-4" />
                 {% endfor %}
                 <!-- Pager-->
-                <!--<div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>-->
+                <!--<div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Articles →</a></div>-->
             </div>
         </div>
     </div>
