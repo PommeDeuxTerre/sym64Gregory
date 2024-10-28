@@ -26,24 +26,50 @@ class AppFixtures extends Fixture
     {
         $faker = Faker::create('fr-FR');
         // users
+        // admin
         $user = new User();
         $user->setUsername("admin");
         $user->setRoles(["ROLE_ADMIN"]);
+        $user->setFullname($faker->name());
+        $user->setUniqid(uniqid());
+        $user->setEmail($faker->email());
+        $user->setActivate(random_int(0, 3) == 3);
         $user->setPassword($this->hasher->hashPassword($user, 'admin'));
         $users[] = $user;
 
         $manager->persist($user);
 
-        for($i=1;$i<=10;$i++){
+        // users
+        for($i=1;$i<=24;$i++){
             $user = new User();
-            $user->setUsername($faker->name());
-            $user->setRoles(['ROLE_USER']);
-            $user->setPassword($this->hasher->hashPassword($user, "password"));
+            $user->setUsername("user$i");
+            $user->setRoles(["ROLE_USER"]);
+            $user->setFullname($faker->name());
+            $user->setUniqid(uniqid());
+            $user->setEmail($faker->email());
+            $user->setActivate(random_int(0, 3) == 3);
+            $user->setPassword($this->hasher->hashPassword($user, "user$i"));
             $users[] = $user;
 
             $manager->persist($user);
         }
 
+        // redators
+        for($i=1;$i<=24;$i++){
+            $user = new User();
+            $user->setUsername("redac$i");
+            $user->setRoles(["ROLE_REDAC"]);
+            $user->setFullname($faker->name());
+            $user->setUniqid(uniqid());
+            $user->setEmail($faker->email());
+            $user->setActivate(random_int(0, 3) == 3);
+            $user->setPassword($this->hasher->hashPassword($user, "redac$i"));
+            $users[] = $user;
+
+            $manager->persist($user);
+        }
+
+        /*
         // tags
         for ($i=1;$i<=20;$i++){
             $tag = new Tag();
@@ -109,7 +135,7 @@ class AppFixtures extends Fixture
             $comment->setCommentDateCreated(new \dateTime('now - ' . mt_rand(0, 4) . ' days'));
             $manager->persist($comment);
         }
-
+        */
         $manager->flush();
     }
 }
