@@ -56,10 +56,10 @@ class Article
     #[ORM\Column(type: Types::DATETIME_MUTABLE, options: [
         'default' => 'CURRENT_TIMESTAMP'
       ])]
-    private ?\DateTimeInterface $article_date_create = null;
+    private ?\DateTimeInterface $article_date_create;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $article_date_posted = null;
+    private ?\DateTimeInterface $article_date_posted;
 
     #[ORM\Column(type: Types::BOOLEAN, options: [
         'default' => '0'
@@ -68,6 +68,7 @@ class Article
 
     public function __construct()
     {
+        $this->article_date_create = new \DateTime();
         $this->sections = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();

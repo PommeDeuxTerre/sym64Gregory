@@ -30,12 +30,6 @@
             {{ form_errors(form.sections) }}
         </div>
         <div class="form-group mb-2">
-            {{ form_label(form.tags, "Tags: ") }}
-            <br>
-            {{ form_widget(form.tags) }}
-            {{ form_errors(form.tags) }}
-        </div>
-        <div class="form-group mb-2">
             {{ form_label(form.articleDateCreate, "Date de création: ") }}
             <br>
             {{ form_widget(form.articleDateCreate, {'attr': {'class': 'mt-1'}}) }}

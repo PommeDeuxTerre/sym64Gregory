@@ -7,6 +7,7 @@ use App\Form\NewArticleType;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Repository\SectionRepository;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,7 +45,9 @@ final class CrudArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $slugify = new Slugify();
             $article->setUser($this->getUser());
+            $article->setTitleSlug($slugify->slugify($article->getTitle()));
             $entityManager->persist($article);
             $entityManager->flush();
 
