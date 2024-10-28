@@ -17,8 +17,8 @@ class NewArticleType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('articleDescription', TextareaType::class, ['attr' => ['placeholder' => 'Votre Message', 'rows' => 5, 'cols' => 40]])
-            ->add('articlePublished')
+            ->add('text', TextareaType::class, ['attr' => ['placeholder' => 'Votre Text', 'rows' => 5, 'cols' => 40]])
+            ->add('published')
             ->add('sections', EntityType::class, [
                 'class' => Section::class,
                 'choice_label' => 'section_title',

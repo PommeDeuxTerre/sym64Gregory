@@ -13,15 +13,15 @@
             {{ form_errors(form.user) }}
         </div>
         <div class="form-group mb-2">
-            {{ form_label(form.postDescription, "Description: ") }}
+            {{ form_label(form.text, "Text: ") }}
             <br>
-            {{ form_widget(form.postDescription, {'attr': {'class': 'mt-1'}}) }}
-            {{ form_errors(form.postDescription) }}
+            {{ form_widget(form.text, {'attr': {'class': 'mt-1'}}) }}
+            {{ form_errors(form.text) }}
         </div>
         <div class="form-group mb-2">
-            {{ form_widget(form.postPublished, {'attr': {'class': 'mt-1'}}) }}
-            {{ form_label(form.postPublished, "Publié") }}
-            {{ form_errors(form.postPublished) }}
+            {{ form_widget(form.published, {'attr': {'class': 'mt-1'}}) }}
+            {{ form_label(form.published, "Publié") }}
+            {{ form_errors(form.published) }}
         </div>
         <div class="form-group mb-2">
             {{ form_label(form.sections, "Sections: ") }}
@@ -36,16 +36,16 @@
             {{ form_errors(form.tags) }}
         </div>
         <div class="form-group mb-2">
-            {{ form_label(form.postDateCreated, "Date de création: ") }}
+            {{ form_label(form.articleDateCreate, "Date de création: ") }}
             <br>
-            {{ form_widget(form.postDateCreated, {'attr': {'class': 'mt-1'}}) }}
-            {{ form_errors(form.postDateCreated) }}
+            {{ form_widget(form.articleDateCreate, {'value': form.articleDateCreate.vars.value|date('Y-m-d'), 'attr': {'class': 'mt-1'}}) }}
+            {{ form_errors(form.articleDateCreate) }}
         </div>
         <div class="form-group mb-2">
-            {{ form_label(form.postDatePublished, "Date de publication: ") }}
+            {{ form_label(form.articleDatePosted, "Date de publication: ") }}
             <br>
-            {{ form_widget(form.postDatePublished, {'attr': {'class': 'mt-1'}}) }}
-            {{ form_errors(form.postDatePublished) }}
+            {{ form_widget(form.articleDatePosted, {'value': form.articleDatePosted.vars.value|date('Y-m-d'), 'attr': {'class': 'mt-1'}}) }}
+            {{ form_errors(form.articleDatePosted) }}
         </div>
         <button class="btn btn-primary">{{ button_label|default('Envoyer') }}</button>
     {{ form_end(form) }}

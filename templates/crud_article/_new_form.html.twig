@@ -7,15 +7,15 @@
             {{ form_errors(form.title) }}
         </div>
         <div class="form-group mb-2">
-            {{ form_label(form.postDescription, "Description: ") }}
+            {{ form_label(form.text, "Text: ") }}
             <br>
-            {{ form_widget(form.postDescription, {'attr': {'class': 'mt-1'}}) }}
-            {{ form_errors(form.postDescription) }}
+            {{ form_widget(form.text, {'attr': {'class': 'mt-1'}}) }}
+            {{ form_errors(form.text) }}
         </div>
         <div class="form-group mb-2">
-            {{ form_widget(form.postPublished, {'attr': {'class': 'mt-1'}}) }}
-            {{ form_label(form.postPublished, "Publié") }}
-            {{ form_errors(form.postPublished) }}
+            {{ form_widget(form.published, {'attr': {'class': 'mt-1'}}) }}
+            {{ form_label(form.published, "Publié") }}
+            {{ form_errors(form.published) }}
         </div>
         <div class="form-group mb-2">
             {{ form_label(form.sections, "Sections: ") }}

@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Form\NewArticleType;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use App\Repository\SectionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,21 +17,28 @@ use Symfony\Component\Routing\Attribute\Route;
 final class CrudArticleController extends AbstractController
 {
     #[Route(name: 'app_crud_article_index', methods: ['GET'])]
-    public function index(ArticleRepository $articleRepository): Response
+    public function index(ArticleRepository $articleRepository, SectionRepository $SectionRepository): Response
     {
         $user = $this->getUser();
-        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()) && !in_array("ROLE_REDAC", $user->getRoles())){
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
+
+        $sections = $SectionRepository->findAll();
         return $this->render('crud_article/index.html.twig', [
+            'sections' => $sections,
             'articles' => $articleRepository->findAll(),
             'user' => $user,
         ]);
     }
 
     #[Route('/new', name: 'app_crud_article_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SectionRepository $SectionRepository): Response
     {
         $user = $this->getUser();
-        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()) && !in_array("ROLE_REDAC", $user->getRoles())){
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
         $article = new Article();
         $form = $this->createForm(NewArticleType::class, $article);
         $form->handleRequest($request);
@@ -43,7 +51,9 @@ final class CrudArticleController extends AbstractController
             return $this->redirectToRoute('app_crud_article_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        $sections = $SectionRepository->findAll();
         return $this->render('crud_article/new.html.twig', [
+            'sections' => $sections,
             'article' => $article,
             'form' => $form,
             'user' => $user,
@@ -51,21 +61,27 @@ final class CrudArticleController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_crud_article_show', methods: ['GET'])]
-    public function show(Article $article): Response
+    public function show(Article $article, SectionRepository $SectionRepository): Response
     {
         $user = $this->getUser();
-        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()) && !in_array("ROLE_REDAC", $user->getRoles())){
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
+        $sections = $SectionRepository->findAll();
         return $this->render('crud_article/show.html.twig', [
+            'sections' => $sections,
             'article' => $article,
             'user' => $user,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_crud_article_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Article $article, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Article $article, EntityManagerInterface $entityManager, SectionRepository $SectionRepository): Response
     {
         $user = $this->getUser();
-        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()) && !in_array("ROLE_REDAC", $user->getRoles())){
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
@@ -75,8 +91,10 @@ final class CrudArticleController extends AbstractController
             return $this->redirectToRoute('app_crud_article_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        $sections = $SectionRepository->findAll();
         return $this->render('crud_article/edit.html.twig', [
             'article' => $article,
+            'sections' => $sections,
             'form' => $form,
             'user' => $user,
         ]);
@@ -86,7 +104,9 @@ final class CrudArticleController extends AbstractController
     public function delete(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()) && !in_array("ROLE_REDAC", $user->getRoles())){
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($article);
             $entityManager->flush();

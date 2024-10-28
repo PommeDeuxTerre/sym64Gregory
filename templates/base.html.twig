@@ -44,7 +44,7 @@
                             <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('section', {slug: section.sectionSlug}) }}">{{ section.sectionTitle }}</a></li>
                         {% endfor %}
                         {% if user %}
-                            {% if "ROLE_ADMIN" in user.roles %}
+                            {% if "ROLE_ADMIN" in user.roles or "ROLE_REDAC" in user.roles %}
                             <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('crud') }}">Crud</a></li>
                             {% endif %}
                             <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_logout') }}">se déconnecter</a></li>
