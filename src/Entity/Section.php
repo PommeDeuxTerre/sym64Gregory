@@ -20,17 +20,20 @@ class Section
     )]
     private ?int $id = null;
 
-    #[ORM\Column(length: 160)]
+    #[ORM\Column(length: 100)]
     private ?string $sectionTitle = null;
-
-    #[ORM\Column(length: 600, nullable: true)]
-    private ?string $sectionDescription = null;
 
     /**
      * @var Collection<int, Article>
      */
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'sections')]
     private Collection $articles;
+
+    #[ORM\Column(length: 105, unique: true)]
+    private ?string $section_slug = null;
+
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $section_detail = null;
 
     public function __construct()
     {
@@ -50,18 +53,6 @@ class Section
     public function setSectionTitle(string $sectionTitle): static
     {
         $this->sectionTitle = $sectionTitle;
-
-        return $this;
-    }
-
-    public function getSectionDescription(): ?string
-    {
-        return $this->sectionDescription;
-    }
-
-    public function setSectionDescription(?string $sectionDescription): static
-    {
-        $this->sectionDescription = $sectionDescription;
 
         return $this;
     }
@@ -89,6 +80,30 @@ class Section
         if ($this->articles->removeElement($article)) {
             $article->removeSection($this);
         }
+
+        return $this;
+    }
+
+    public function getSectionSlug(): ?string
+    {
+        return $this->section_slug;
+    }
+
+    public function setSectionSlug(string $section_slug): static
+    {
+        $this->section_slug = $section_slug;
+
+        return $this;
+    }
+
+    public function getSectionDetail(): ?string
+    {
+        return $this->section_detail;
+    }
+
+    public function setSectionDetail(?string $section_detail): static
+    {
+        $this->section_detail = $section_detail;
 
         return $this;
     }
