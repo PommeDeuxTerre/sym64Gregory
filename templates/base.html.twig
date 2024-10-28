@@ -40,9 +40,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('homepage') }}">Accueil</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('tags') }}">Tags</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('sections') }}">Sections</a></li>
+                        {% for section in sections %}
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('section', {slug: section.sectionSlug}) }}">{{ section.sectionTitle }}</a></li>
+                        {% endfor %}
                         {% if user %}
                             {% if "ROLE_ADMIN" in user.roles %}
                             <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('crud') }}">Crud</a></li>

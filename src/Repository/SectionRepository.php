@@ -30,6 +30,15 @@ class SectionRepository extends ServiceEntityRepository
     //            ->getResult()
     //        ;
     //    }
+    public function findAll(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 
     public function getSectionBySlug($slug): ?Section
     {

@@ -30,10 +30,12 @@ class SectionController extends AbstractController
         $articles = $ArticleRepository->findAllPublished();
         // filter the articles that doesn't contain the section (yes I should have done that in the up line)
         $articles = array_filter($articles, fn($article) => in_array($section, $article->getSections()->toArray()));
+        $sections = $SectionRepository->findAll();
         return $this->render('section/section.html.twig', [
             'controller_name' => 'SectionController',
             'user' => $user,
             'section' => $section,
+            'sections' => $sections,
             'articles' => $articles,
         ]);
     }
