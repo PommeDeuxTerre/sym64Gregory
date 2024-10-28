@@ -1,4 +1,4 @@
-# exeSymG2
+# sym64gregory
 
 Créé à partir du dossier :
 
