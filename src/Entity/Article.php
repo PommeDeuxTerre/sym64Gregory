@@ -216,12 +216,12 @@ class Article
         return $this;
     }
 
-    public function getArticleDateArticleed(): ?\DateTimeInterface
+    public function getArticleDatePosted(): ?\DateTimeInterface
     {
         return $this->article_date_posted;
     }
 
-    public function setArticleDateArticleed(?\DateTimeInterface $article_date_posted): static
+    public function setArticleDatePosted(?\DateTimeInterface $article_date_posted): static
     {
         $this->article_date_posted = $article_date_posted;
 

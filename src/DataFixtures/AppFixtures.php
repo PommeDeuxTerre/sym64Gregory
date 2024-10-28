@@ -38,6 +38,7 @@ class AppFixtures extends Fixture
         $user->setActivate(random_int(0, 3) == 3);
         $user->setPassword($this->hasher->hashPassword($user, 'admin'));
         $users[] = $user;
+        $creators[] = $user;
 
         $manager->persist($user);
 
@@ -67,6 +68,7 @@ class AppFixtures extends Fixture
             $user->setActivate(random_int(0, 3) == 3);
             $user->setPassword($this->hasher->hashPassword($user, "redac$i"));
             $users[] = $user;
+            $creators[] = $user;
 
             $manager->persist($user);
         }
@@ -83,36 +85,21 @@ class AppFixtures extends Fixture
             $manager->persist($section);
         }
 
-        /*
-        // tags
-        for ($i=1;$i<=20;$i++){
-            $tag = new Tag();
-            $tag->setTagName(ucfirst($faker->shuffle($faker->word()).$faker->shuffle($faker->word()).$faker->shuffle($faker->word())));
-            $tags[] = $tag;
-            $manager->persist($tag);
-        }
-
-
         // articles
-        for ($i=1;$i<=100;$i++){
+        for ($i=1;$i<=160;$i++){
             $article = new Article();
-            $rand_user = $users[array_rand($users)];
+            $rand_user = $creators[array_rand($creators)];
 
             $article->setUser($rand_user);
-            $article->setArticleDateCreated(new \dateTime('now - 30 days'));
-            $article->setArticlePublished(rand(0, 1) == 1);
-            if ($article->isArticlePublished()){
-                $article->setArticleDatePublished(new \dateTime('now - ' . mt_rand(6, 25) . ' days'));
-            }
             $article->setTitle(ucfirst($faker->words(mt_rand(2,5),true)));
-            $article->setArticleDescription($faker->paragraphs(mt_rand(3,6), true));
-
-
-            // tags
-            for ($j=1;$j<=5;$j++){
-                $rand_tag = $tags[array_rand($tags)];
-                $article->addTag($rand_tag);
+            $article->setTitleSlug($slugify->slugify($article->getTitle()));
+            $article->setText($faker->paragraphs(mt_rand(3,6), true));
+            $article->setArticleDateCreate(new \dateTime('now - 30 days'));
+            $article->setPublished(rand(0, 1) == 1);
+            if ($article->getPublished()){
+                $article->setArticleDatePosted($faker->dateTimeBetween($article->getArticleDateCreate(), "now"));
             }
+
 
             // sections
             for ($j=1;$j<=5;$j++){
@@ -124,6 +111,17 @@ class AppFixtures extends Fixture
 
             $manager->persist($article);
         }
+
+        /*
+        // tags
+        for ($i=1;$i<=20;$i++){
+            $tag = new Tag();
+            $tag->setTagName(ucfirst($faker->shuffle($faker->word()).$faker->shuffle($faker->word()).$faker->shuffle($faker->word())));
+            $tags[] = $tag;
+            $manager->persist($tag);
+        }
+
+
 
         $published_articles = array_values(array_filter($articles, fn(Article $article)=>$article->isArticlePublished()));
 
