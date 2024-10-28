@@ -14,11 +14,11 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ArticleController extends AbstractController
 {
-    #[Route('/article/{id}', name: 'app_article')]
-    public function index(Request $request, int $id, ArticleRepository $ArticleRepository, EntityManagerInterface $entityManager, CommentRepository $CommentRepository): Response
+    #[Route('/article/{slug}', name: 'app_article')]
+    public function index(Request $request, string $slug, ArticleRepository $ArticleRepository, EntityManagerInterface $entityManager, CommentRepository $CommentRepository): Response
     {
         $user = $this->getUser();
-        $article = $ArticleRepository->getArticleById($id);
+        $article = $ArticleRepository->getArticleBySlug($slug);
 
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);

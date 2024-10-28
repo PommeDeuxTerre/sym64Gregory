@@ -44,19 +44,15 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Article[] Returns an array of Article objects
+     * @return Article Returns an array of Article objects
      */
-    public function getArticleById(int $id): ?Article
+    public function getArticleBySlug(string $slug): ?Article
     {
-        return $this->find($id);
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.title_slug = :val')
+            ->setParameter('val', $slug)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
-    //    public function findOneBySomeField($value): ?Article
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }
