@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Post CRUD{% endblock %}
+{% block title %}Article CRUD{% endblock %}
 
 {% block body %}
     <!-- Page Header-->
@@ -9,7 +9,7 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="site-heading">
-                        <h1>Post CRUD</h1>
+                        <h1>Article CRUD</h1>
                     </div>
                 </div>
             </div>
@@ -25,8 +25,8 @@
                         <tr>
                             <th>Id</th>
                             <th>Titre</th>
+                            <th>Auteur</th>
                             <th>Date de création</th>
-                            <th>Date de Publication</th>
                             <th>Publié</th>
                             <th>actions</th>
                         </tr>
@@ -36,8 +36,8 @@
                         <tr>
                             <td>{{ article.id }}</td>
                             <td>{{ article.title }}</td>
+                            <td>{{ article.user.fullname }}</td>
                             <td>{{ article.articleDateCreate ? article.articleDateCreate|date('d/m/Y H:i:s') : '' }}</td>
-                            <td>{{ article.articleDatePosted ? article.articleDatePosted|date('d/m/Y H:i:s') : '' }}</td>
                             <td>{{ article.published ? 'Oui' : 'Non' }}</td>
                             <td>
                                 <a href="{{ path('app_crud_article_show', {'id': article.id}) }}">Voir</a>
