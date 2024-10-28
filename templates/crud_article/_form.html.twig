@@ -38,7 +38,7 @@
         <div class="form-group mb-2">
             {{ form_label(form.articleDateCreate, "Date de création: ") }}
             <br>
-            {{ form_widget(form.articleDateCreate, {'value': form.articleDateCreate.vars.value|date('Y-m-d'), 'attr': {'class': 'mt-1'}}) }}
+            {{ form_widget(form.articleDateCreate, {'attr': {'class': 'mt-1'}}) }}
             {{ form_errors(form.articleDateCreate) }}
         </div>
         <div class="form-group mb-2">

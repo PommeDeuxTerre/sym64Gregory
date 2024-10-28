@@ -8,6 +8,7 @@ use App\Entity\Tag;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,8 +20,8 @@ class ArticleType extends AbstractType
         $builder
             ->add('title')
             ->add('text', TextareaType::class, ['attr' => ['placeholder' => 'Votre Text', 'rows' => 5, 'cols' => 40]])
-            ->add('articleDateCreate', null)
-            ->add('articleDatePosted', null)
+            ->add('articleDateCreate', DateTimeType::class, ['widget' => 'single_text', 'input' => 'datetime'])
+            ->add('articleDatePosted', DateTimeType::class, ['widget' => 'single_text', 'input' => 'datetime'])
             ->add('published')
             ->add('sections', EntityType::class, [
                 'class' => Section::class,
