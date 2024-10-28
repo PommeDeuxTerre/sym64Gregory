@@ -22,7 +22,7 @@
             <div class="col-md-10 col-lg-8 col-xl-7">
                 {% for section in sections %}
                     <div class="post-preview">
-                        <a href="{{ path('section', {id: section.id}) }}">
+                        <a href="{{ path('section', {slug: section.sectionSlug}) }}">
                             <h2 class="post-title">{{ section.sectionTitle }}</h2>
                             <h3 class="post-subtitle">{{ section.sectionDetail }}</h3>
                         </a>
