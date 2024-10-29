@@ -47,6 +47,20 @@ class ArticleRepository extends ServiceEntityRepository
     /**
      * @return Article[] Returns an array of Article objects
      */
+    public function findTenLastPublished(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.published = 1')
+            ->orderBy('p.article_date_posted', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Article[] Returns an array of Article objects
+     */
     public function findAllPublished(): array
     {
         return $this->createQueryBuilder('p')

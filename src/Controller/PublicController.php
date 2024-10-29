@@ -14,7 +14,7 @@ class PublicController extends AbstractController
     public function index(ArticleRepository $ArticleRepository, SectionRepository $SectionRepository): Response
     {
         $user = $this->getUser();
-        $articles = $ArticleRepository->findAllPublished();
+        $articles = $ArticleRepository->findTenLastPublished();
         $sections = $SectionRepository->findAll();
         return $this->render('public/index.html.twig', [
             'controller_name' => 'PublicController',
