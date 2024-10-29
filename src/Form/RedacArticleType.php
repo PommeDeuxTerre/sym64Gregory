@@ -20,7 +20,6 @@ class RedacArticleType extends AbstractType
             ->add('title')
             ->add('text', TextareaType::class, ['attr' => ['placeholder' => 'Votre Text', 'rows' => 5, 'cols' => 40]])
             ->add('articleDateCreate', DateTimeType::class, ['widget' => 'single_text', 'input' => 'datetime'])
-            ->add('articleDatePosted', DateTimeType::class, ['widget' => 'single_text', 'input' => 'datetime', 'required' => false])
             ->add('published')
             ->add('sections', EntityType::class, [
                 'class' => Section::class,

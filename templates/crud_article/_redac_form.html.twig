@@ -29,12 +29,6 @@
             {{ form_widget(form.articleDateCreate, {'attr': {'class': 'mt-1'}}) }}
             {{ form_errors(form.articleDateCreate) }}
         </div>
-        <div class="form-group mb-2">
-            {{ form_label(form.articleDatePosted, "Date de publication: ") }}
-            <br>
-            {{ form_widget(form.articleDatePosted, {'value': form.articleDatePosted.vars.value|date('Y-m-d'), 'attr': {'class': 'mt-1'}}) }}
-            {{ form_errors(form.articleDatePosted) }}
-        </div>
         <button class="btn btn-primary">{{ button_label|default('Envoyer') }}</button>
     {{ form_end(form) }}
 </div>

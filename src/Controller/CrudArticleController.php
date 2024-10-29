@@ -53,6 +53,12 @@ final class CrudArticleController extends AbstractController
             $slugify = new Slugify();
             $article->setUser($this->getUser());
             $article->setTitleSlug($slugify->slugify($article->getTitle()));
+
+            $is_going_to_be_published = $form->getData()->getPublished();
+            if ($is_going_to_be_published){
+                $article->setArticleDatePosted(new \DateTime());
+            }
+
             $entityManager->persist($article);
             $entityManager->flush();
 
@@ -96,6 +102,7 @@ final class CrudArticleController extends AbstractController
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
         $article = $ArticleRepository->getArticleBySlug($slug);
+        $was_published = $article->getPublished();
         if (!in_array("ROLE_ADMIN", $user->getRoles()) && $user->getId() != $article->getUser()->getId()){
             return $this->redirectToRoute('app_crud_article_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -107,6 +114,13 @@ final class CrudArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $is_going_to_be_published = $form->getData()->getPublished();
+            if (!$was_published && $is_going_to_be_published){
+                $article->setArticleDatePosted(new \DateTime());
+            }else if ($was_published && !$is_going_to_be_published) {
+                $article->setArticleDatePosted(null);
+            }
+            $entityManager->persist($article);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_crud_article_index', [], Response::HTTP_SEE_OTHER);
