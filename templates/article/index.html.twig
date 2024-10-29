@@ -13,6 +13,21 @@
                             <a href="#!">{{ article.user.fullname }}</a>
                             le {{ article.articleDatePosted|date('d-m-Y') }}
                         </span>
+                        <br>
+                        <span class="meta">
+                            {% for section in article.sections %}
+                                {% if not loop.last %}
+                                    <a href="{{ path('section', {slug: section.sectionSlug}) }}" class="section-link">{{ section.sectionTitle }},</a>
+                                {% else %}
+                                    <a href="{{ path('section', {slug: section.sectionSlug}) }}" class="section-link">{{ section.sectionTitle }}</a>
+                                {% endif %}
+                            {% endfor %}
+                            <style>
+                            .section-link:hover {
+                                color: #b0a8a8 !important;
+                            }
+                            </style>
+                        </span>
                     </div>
                 </div>
             </div>
