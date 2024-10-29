@@ -75,6 +75,9 @@ final class CrudSectionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $slugify = new Slugify();
+            $section->setSectionSlug($slugify->slugify($section->getSectionTitle()));
+            $entityManager->persist($section);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_crud_section_index', [], Response::HTTP_SEE_OTHER);
