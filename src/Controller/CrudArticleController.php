@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Form\NewArticleType;
 use App\Form\ArticleType;
+use App\Form\RedacArticleType;
 use App\Repository\ArticleRepository;
 use App\Repository\SectionRepository;
 use Cocur\Slugify\Slugify;
@@ -98,7 +99,11 @@ final class CrudArticleController extends AbstractController
         if (!in_array("ROLE_ADMIN", $user->getRoles()) && $user->getId() != $article->getUser()->getId()){
             return $this->redirectToRoute('app_crud_article_index', [], Response::HTTP_SEE_OTHER);
         }
-        $form = $this->createForm(ArticleType::class, $article);
+        if (in_array("ROLE_ADMIN", $user->getRoles())){
+            $form = $this->createForm(ArticleType::class, $article);
+        }else {
+            $form = $this->createForm(RedacArticleType::class, $article);
+        }
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
