@@ -52,10 +52,11 @@ final class CrudSectionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_crud_section_show', methods: ['GET'])]
-    public function show(Section $section, SectionRepository $sectionRepository): Response
+    #[Route('/{slug}', name: 'app_crud_section_show', methods: ['GET'])]
+    public function show(string $slug, SectionRepository $sectionRepository): Response
     {
         $user = $this->getUser();
+        $section = $sectionRepository->getSectionBySlug($slug);
         if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         return $this->render('crud_section/show.html.twig', [
             'sections' => $sectionRepository->findAll(),
@@ -64,10 +65,11 @@ final class CrudSectionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_crud_section_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Section $section, EntityManagerInterface $entityManager, SectionRepository $sectionRepository): Response
+    #[Route('/{slug}/edit', name: 'app_crud_section_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, string $slug, EntityManagerInterface $entityManager, SectionRepository $sectionRepository): Response
     {
         $user = $this->getUser();
+        $section = $sectionRepository->getSectionBySlug($slug);
         if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         $form = $this->createForm(SectionType::class, $section);
         $form->handleRequest($request);

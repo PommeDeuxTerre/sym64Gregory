@@ -37,8 +37,8 @@
                             <td>{{ section.sectionTitle }}</td>
                             <td>{{ section.sectionDetail }}</td>
                             <td>
-                                <a href="{{ path('app_crud_section_show', {'id': section.id}) }}">Voir</a>
-                                <a href="{{ path('app_crud_section_edit', {'id': section.id}) }}">Modifier</a>
+                                <a href="{{ path('app_crud_section_show', {'slug': section.sectionSlug}) }}">Voir</a>
+                                <a href="{{ path('app_crud_section_edit', {'slug': section.sectionSlug}) }}">Modifier</a>
                             </td>
                         </tr>
                     {% else %}
