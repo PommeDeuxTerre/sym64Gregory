@@ -37,7 +37,7 @@
     <div class="container">
         <h2>{{ article.title }}</h2>
         <p class="fs-4">
-            {{ article.text }}
+            {{ article.text|nl2br }}
         </p>
         <h3 class="mb-4">Commentaires</h3>
         {% for comment in comments %}
