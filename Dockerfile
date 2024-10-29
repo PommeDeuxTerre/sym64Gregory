@@ -1,29 +1,36 @@
-FROM php:8.2-fpm
-
-# Installer les extensions PDO et MySQL
-RUN docker-php-ext-install pdo pdo_mysql
-
-# Installer Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Installer APCu
-RUN pecl install apcu && docker-php-ext-enable apcu
-
-# Installer Xdebug
-RUN pecl install xdebug && docker-php-ext-enable xdebug
-
-# Configurer Xdebug
-RUN echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.client_port=9003" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.log=/tmp/xdebug.log" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
-# Activer et configurer OPcache
-RUN docker-php-ext-install opcache \
-    && echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/opcache.ini \
-    && echo "opcache.memory_consumption=128" >> /usr/local/etc/php/conf.d/opcache.ini \
-    && echo "opcache.interned_strings_buffer=8" >> /usr/local/etc/php/conf.d/opcache.ini \
-    && echo "opcache.max_accelerated_files=10000" >> /usr/local/etc/php/conf.d/opcache.ini \
-    && echo "opcache.revalidate_freq=0" >> /usr/local/etc/php/conf.d/opcache.ini \
-    && echo "opcache.validate_timestamps=1" >> /usr/local/etc/php/conf.d/opcache.ini
+FROM composer:2.4.2 as composer
+
+##################################
+
+FROM php:8.1-fpm-alpine3.16
+
+RUN apk add --no-cache \
+    bash=~5.1 \
+    git=~2.36 \
+    icu-dev=~71.1
+
+RUN mkdir -p /usr/src/app \
+    && apk add --no-cache --virtual=.build-deps \
+        autoconf=~2.71 \
+        g++=~11.2 \
+        make=~4.3 \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install -j"$(nproc)" intl pdo_mysql \
+    && pecl install apcu \
+    && docker-php-ext-enable apcu intl \
+    && apk del .build-deps
+
+WORKDIR /usr/src/app
+
+COPY composer.json /usr/src/app/composer.json
+COPY composer.lock /usr/src/app/composer.lock
+
+RUN PATH=$PATH:/usr/src/app/vendor/bin:bin
+
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+RUN composer install --no-scripts
+
+COPY . /usr/src/app
+
+#RUN chown -R 1000:1000 /usr/src/app
