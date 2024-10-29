@@ -22,18 +22,11 @@
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <h2 class="mb-3">Les différents CRUDs: </h2>
                 <ul>
+                    {% for crud in cruds %}
                     <li>
-                        <h3><a href="{{ path('app_comment_index') }}">Commentaires Crud</a></h3>
+                        <h3><a href="{{ path(crud[0]) }}">{{ crud[1] }}</a></h3>
                     </li>
-                    <li>
-                        <h3><a href="{{ path('app_crud_article_index') }}">Articles Crud</a></h3>
-                    </li>
-                    <li>
-                        <h3><a href="{{ path('app_crud_section_index') }}">Sections Crud</a></h3>
-                    </li>
-                    <li>
-                        <h3><a href="{{ path('app_crud_tag_index') }}">Tags Crud</a></h3>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
