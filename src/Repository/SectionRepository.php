@@ -33,12 +33,11 @@ class SectionRepository extends ServiceEntityRepository
     public function findAll(): array
     {
         return $this->createQueryBuilder('p')
-            ->orderBy('p.id', 'ASC')
+            ->orderBy('p.id', 'DESC')
             ->getQuery()
             ->getResult()
         ;
     }
-
 
     public function getSectionBySlug($slug): ?Section
     {

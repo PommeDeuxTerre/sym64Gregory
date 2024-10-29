@@ -33,6 +33,20 @@ class ArticleRepository extends ServiceEntityRepository
     /**
      * @return Article[] Returns an array of Article objects
      */
+    public function findAllByAuthor(int $id): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.user = :val')
+            ->setParameter('val', $id)
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Article[] Returns an array of Article objects
+     */
     public function findAllPublished(): array
     {
         return $this->createQueryBuilder('p')

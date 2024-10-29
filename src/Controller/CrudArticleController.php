@@ -21,14 +21,18 @@ final class CrudArticleController extends AbstractController
     public function index(ArticleRepository $articleRepository, SectionRepository $SectionRepository): Response
     {
         $user = $this->getUser();
-        if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()) && !in_array("ROLE_REDAC", $user->getRoles())){
+        if ($user && in_array("ROLE_ADMIN", $user->getRoles())){
+            $articles = $articleRepository->findAll();
+        }else if ($user && in_array("ROLE_REDAC", $user->getRoles())){
+            $articles = $articleRepository->findAllByAuthor($user->getId());
+        }else {
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
 
         $sections = $SectionRepository->findAll();
         return $this->render('crud_article/index.html.twig', [
             'sections' => $sections,
-            'articles' => $articleRepository->findAll(),
+            'articles' => $articles,
             'user' => $user,
         ]);
     }
@@ -70,6 +74,9 @@ final class CrudArticleController extends AbstractController
         if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()) && !in_array("ROLE_REDAC", $user->getRoles())){
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
+        if (!in_array("ROLE_ADMIN", $user->getRoles()) && $user->getId() != $article->getUser()->getId()){
+            return $this->redirectToRoute('app_crud_article_index', [], Response::HTTP_SEE_OTHER);
+        }
         $sections = $SectionRepository->findAll();
         return $this->render('crud_article/show.html.twig', [
             'sections' => $sections,
@@ -82,8 +89,12 @@ final class CrudArticleController extends AbstractController
     public function edit(Request $request, Article $article, EntityManagerInterface $entityManager, SectionRepository $SectionRepository): Response
     {
         $user = $this->getUser();
+        // if not user or neither redac nor admin
         if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()) && !in_array("ROLE_REDAC", $user->getRoles())){
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
+        if (!in_array("ROLE_ADMIN", $user->getRoles()) && $user->getId() != $article->getUser()->getId()){
+            return $this->redirectToRoute('app_crud_article_index', [], Response::HTTP_SEE_OTHER);
         }
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
@@ -109,6 +120,9 @@ final class CrudArticleController extends AbstractController
         $user = $this->getUser();
         if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()) && !in_array("ROLE_REDAC", $user->getRoles())){
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
+        if (!in_array("ROLE_ADMIN", $user->getRoles()) && $user->getId() != $article->getUser()->getId()){
+            return $this->redirectToRoute('app_crud_article_index', [], Response::HTTP_SEE_OTHER);
         }
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($article);
