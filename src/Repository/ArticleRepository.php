@@ -24,7 +24,7 @@ class ArticleRepository extends ServiceEntityRepository
     public function findAll(): array
     {
         return $this->createQueryBuilder('p')
-            ->orderBy('p.id', 'ASC')
+            ->orderBy('p.article_date_create', 'DESC')
             ->getQuery()
             ->getResult()
         ;
@@ -38,7 +38,7 @@ class ArticleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->andWhere('p.user = :val')
             ->setParameter('val', $id)
-            ->orderBy('p.id', 'ASC')
+            ->orderBy('p.article_date_create', 'DESC')
             ->getQuery()
             ->getResult()
         ;
@@ -51,7 +51,7 @@ class ArticleRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->where('p.published = 1')
-            ->orderBy('p.id', 'ASC')
+            ->orderBy('p.article_date_create', 'DESC')
             ->getQuery()
             ->getResult()
         ;
