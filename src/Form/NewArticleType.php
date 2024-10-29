@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Article;
 use App\Entity\Section;
-use App\Entity\Tag;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;

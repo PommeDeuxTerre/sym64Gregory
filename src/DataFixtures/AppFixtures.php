@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use App\Entity\Comment;
 use App\Entity\Article;
 use App\Entity\Section;
-use App\Entity\Tag;
 use Cocur\Slugify\Slugify;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -113,16 +112,6 @@ class AppFixtures extends Fixture
         }
 
         /*
-        // tags
-        for ($i=1;$i<=20;$i++){
-            $tag = new Tag();
-            $tag->setTagName(ucfirst($faker->shuffle($faker->word()).$faker->shuffle($faker->word()).$faker->shuffle($faker->word())));
-            $tags[] = $tag;
-            $manager->persist($tag);
-        }
-
-
-
         $published_articles = array_values(array_filter($articles, fn(Article $article)=>$article->isArticlePublished()));
 
         // comments

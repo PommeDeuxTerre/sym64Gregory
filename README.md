@@ -32,7 +32,6 @@ Les `Entity` récupérés depuis le projet sont stockées dans le dossier `src/E
 - `Comment.php`
 - `Article.php`
 - `Section.php`
-- `Tag.php`
 - `User.php`
 
 Les `Repository` récupérés depuis le projet sont stockés dans le dossier `src/Repository`:
@@ -40,7 +39,6 @@ Les `Repository` récupérés depuis le projet sont stockés dans le dossier `sr
 - `CommentRepository.php`
 - `ArticleRepository.php`
 - `SectionRepository.php`
-- `TagRepository.php`
 - `UserRepository.php`
 
 Seul le controller `src/Controller/SecurityController.php` a été récupéré depuis le projet.
