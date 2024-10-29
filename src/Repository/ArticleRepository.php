@@ -51,7 +51,7 @@ class ArticleRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->where('p.published = 1')
-            ->orderBy('p.article_date_create', 'DESC')
+            ->orderBy('p.article_date_posted', 'DESC')
             ->getQuery()
             ->getResult()
         ;
