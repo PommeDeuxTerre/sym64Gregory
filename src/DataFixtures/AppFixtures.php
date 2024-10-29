@@ -72,18 +72,6 @@ class AppFixtures extends Fixture
             $manager->persist($user);
         }
 
-        // sections
-        for ($i=1;$i<=6;$i++){
-            $section = new Section();
-
-            $title = ucfirst($faker->words(rand(1, 2),true));
-            $section->setSectionTitle($title);
-            $section->setSectionDetail($faker->paragraphs(1,true));
-            $section->setSectionSlug($slugify->slugify($title));
-            $sections[] = $section;
-            $manager->persist($section);
-        }
-
         // articles
         for ($i=1;$i<=160;$i++){
             $article = new Article();
@@ -93,22 +81,37 @@ class AppFixtures extends Fixture
             $article->setTitle(ucfirst($faker->words(mt_rand(2,5),true)));
             $article->setTitleSlug($slugify->slugify($article->getTitle()));
             $article->setText($faker->paragraphs(mt_rand(3,6), true));
-            $article->setArticleDateCreate(new \dateTime('now - 30 days'));
-            $article->setPublished(rand(0, 1) == 1);
+            $article->setArticleDateCreate(new \dateTime('now - 6 months'));
+            $article->setPublished(rand(0, 3) < 3);
             if ($article->getPublished()){
                 $article->setArticleDatePosted($faker->dateTimeBetween($article->getArticleDateCreate(), "now"));
-            }
-
-
-            // sections
-            for ($j=1;$j<=5;$j++){
-                $rand_section = $sections[array_rand($sections)];
-                $article->addSection($rand_section);
             }
 
             $articles[] = $article;
 
             $manager->persist($article);
+        }
+
+        // sections
+        for ($i=1;$i<=6;$i++){
+            $section = new Section();
+
+            $title = ucfirst($faker->words(rand(1, 2),true));
+            $section->setSectionTitle($title);
+            $section->setSectionDetail($faker->paragraphs(1,true));
+            $section->setSectionSlug($slugify->slugify($title));
+            $past_articles = [];
+            $number = rand(2, 40);
+            for ($j=0;$j <= $number;$j++){
+                $random_article = rand(0, sizeof($articles) - 1);
+                while (in_array($random_article, $past_articles)){
+                    $random_article = rand(0, sizeof($articles) - 1);
+                }
+                $past_articles[] = $random_article;
+                $section->addArticle($articles[$random_article]);
+            }
+            $sections[] = $section;
+            $manager->persist($section);
         }
 
         /*
