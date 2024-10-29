@@ -67,13 +67,14 @@ final class CrudArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_crud_article_show', methods: ['GET'])]
-    public function show(Article $article, SectionRepository $SectionRepository): Response
+    #[Route('/{slug}', name: 'app_crud_article_show', methods: ['GET'])]
+    public function show(string $slug, ArticleRepository $ArticleRepository, SectionRepository $SectionRepository): Response
     {
         $user = $this->getUser();
         if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()) && !in_array("ROLE_REDAC", $user->getRoles())){
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
+        $article = $ArticleRepository->getArticleBySlug($slug);
         if (!in_array("ROLE_ADMIN", $user->getRoles()) && $user->getId() != $article->getUser()->getId()){
             return $this->redirectToRoute('app_crud_article_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -85,14 +86,15 @@ final class CrudArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_crud_article_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Article $article, EntityManagerInterface $entityManager, SectionRepository $SectionRepository): Response
+    #[Route('/{slug}/edit', name: 'app_crud_article_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, string $slug, ArticleRepository $ArticleRepository, EntityManagerInterface $entityManager, SectionRepository $SectionRepository): Response
     {
         $user = $this->getUser();
         // if not user or neither redac nor admin
         if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()) && !in_array("ROLE_REDAC", $user->getRoles())){
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
+        $article = $ArticleRepository->getArticleBySlug($slug);
         if (!in_array("ROLE_ADMIN", $user->getRoles()) && $user->getId() != $article->getUser()->getId()){
             return $this->redirectToRoute('app_crud_article_index', [], Response::HTTP_SEE_OTHER);
         }

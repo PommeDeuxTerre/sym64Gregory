@@ -64,7 +64,7 @@
 
                 <a href="{{ path('app_crud_article_index') }}">Retour à la liste</a>
 
-                <a href="{{ path('app_crud_article_edit', {'id': article.id}) }}">Modifier</a>
+                <a href="{{ path('app_crud_article_edit', {'slug': article.titleSlug}) }}">Modifier</a>
 
                 {{ include('crud_article/_delete_form.html.twig') }}
             </div>
