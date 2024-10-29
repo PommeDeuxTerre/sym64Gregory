@@ -7,10 +7,10 @@
             {{ form_errors(form.sectionTitle) }}
         </div>
         <div class="form-group mb-2">
-            {{ form_label(form.sectionDescription, "Description: ") }}
+            {{ form_label(form.sectionDetail, "Description: ") }}
             <br>
-            {{ form_widget(form.sectionDescription, {'attr': {'class': 'mt-1'}}) }}
-            {{ form_errors(form.sectionDescription) }}
+            {{ form_widget(form.sectionDetail, {'attr': {'class': 'mt-1'}}) }}
+            {{ form_errors(form.sectionDetail) }}
         </div>
 
         <button class="btn btn-primary">{{ button_label|default('Créer') }}</button>

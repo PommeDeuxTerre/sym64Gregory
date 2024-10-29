@@ -15,7 +15,7 @@ class SectionType extends AbstractType
     {
         $builder
             ->add('sectionTitle', TextType::class, ['attr' => ['placeholder' => 'Nom de la Section']])
-            ->add('sectionDescription', TextareaType::class, ['attr' => ['placeholder' => 'Votre Description', 'rows' => 5, 'cols' => 40]])
+            ->add('sectionDetail', TextareaType::class, ['attr' => ['placeholder' => 'Votre Description', 'rows' => 5, 'cols' => 40]])
         ;
     }
 

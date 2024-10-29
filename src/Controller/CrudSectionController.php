@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Section;
 use App\Form\SectionType;
 use App\Repository\SectionRepository;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +27,7 @@ final class CrudSectionController extends AbstractController
     }
 
     #[Route('/new', name: 'app_crud_section_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SectionRepository $sectionRepository): Response
     {
         $user = $this->getUser();
         if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
@@ -35,6 +36,8 @@ final class CrudSectionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $slugify = new Slugify();
+            $section->setSectionSlug($slugify->slugify($section->getSectionTitle()));
             $entityManager->persist($section);
             $entityManager->flush();
 
@@ -42,6 +45,7 @@ final class CrudSectionController extends AbstractController
         }
 
         return $this->render('crud_section/new.html.twig', [
+            'sections' => $sectionRepository->findAll(),
             'section' => $section,
             'form' => $form,
             'user' => $user,
@@ -49,18 +53,19 @@ final class CrudSectionController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_crud_section_show', methods: ['GET'])]
-    public function show(Section $section): Response
+    public function show(Section $section, SectionRepository $sectionRepository): Response
     {
         $user = $this->getUser();
         if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         return $this->render('crud_section/show.html.twig', [
+            'sections' => $sectionRepository->findAll(),
             'section' => $section,
             'user' => $user,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_crud_section_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Section $section, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Section $section, EntityManagerInterface $entityManager, SectionRepository $sectionRepository): Response
     {
         $user = $this->getUser();
         if (!$user || !in_array("ROLE_ADMIN", $user->getRoles()))return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
@@ -74,6 +79,7 @@ final class CrudSectionController extends AbstractController
         }
 
         return $this->render('crud_section/edit.html.twig', [
+            'sections' => $sectionRepository->findAll(),
             'section' => $section,
             'form' => $form,
             'user' => $user,
