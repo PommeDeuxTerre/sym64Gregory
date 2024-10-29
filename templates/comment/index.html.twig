@@ -29,7 +29,6 @@
                             <th>Utilisateur</th>
                             <th>Message</th>
                             <th>Date de création</th>
-                            <th>Publié</th>
                             <th>actions</th>
                         </tr>
                     </thead>
@@ -41,7 +40,6 @@
                             <td>{{ comment.user.username }}</td>
                             <td>{{ comment.commentMessage }}</td>
                             <td>{{ comment.commentDateCreated ? comment.commentDateCreated|date('d/m/Y H:i:s') : '' }}</td>
-                            <td>{{ comment.commentPublished ? 'Oui' : 'Non' }}</td>
                             <td>
                                 <a href="{{ path('app_comment_show', {'id': comment.id}) }}">Voir</a>
                                 <a href="{{ path('app_comment_edit', {'id': comment.id}) }}">Modifier</a>

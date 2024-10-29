@@ -44,12 +44,10 @@ class Comment
             'default' => false,
         ]
     )]
-    private ?bool $commentPublished = null;
 
     public function __construct()
     {
         $this->commentDateCreated = new DateTime();
-        $this->commentPublished = true;
     }
 
     public function getId(): ?int
@@ -101,18 +99,6 @@ class Comment
     public function setUser(?User $user): static
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function isCommentPublished(): ?bool
-    {
-        return $this->commentPublished;
-    }
-
-    public function setCommentPublished(bool $commentPublished): static
-    {
-        $this->commentPublished = $commentPublished;
 
         return $this;
     }

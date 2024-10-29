@@ -28,10 +28,10 @@
                         </tr>
                         <tr>
                             <th>Article</th>
-                            <td>{{ comment.post.title }}</td>
+                            <td>{{ comment.article.title }}</td>
                         </tr>
                         <tr>
-                            <th>Utilisateur</th>
+                            <th>Auteur</th>
                             <td>{{ comment.user.username }}</td>
                         </tr>
                         <tr>
@@ -41,10 +41,6 @@
                         <tr>
                             <th>Date de création</th>
                             <td>{{ comment.commentDateCreated ? comment.commentDateCreated|date('d/m/Y H:i:s') : '' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Publié</th>
-                            <td>{{ comment.commentPublished ? 'Oui' : 'Non' }}</td>
                         </tr>
                     </tbody>
                 </table>

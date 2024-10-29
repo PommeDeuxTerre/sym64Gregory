@@ -23,8 +23,7 @@ class EditCommentType extends AbstractType
         ->add('article', entitytype::class, [
             'class' => Article::class,
             'choice_label' => 'title',
-        ])
-        ->add('commentPublished');
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
