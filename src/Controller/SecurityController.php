@@ -14,6 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\FormError;
 
 class SecurityController extends AbstractController
 {
@@ -51,23 +52,26 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword(
-                $passwordEncoder->hashPassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
-            );
-            $user->setUniqid(uniqid());
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // Redirect to some route, e.g., login
-            return $this->redirectToRoute('app_login');
+            try {
+                $user->setPassword(
+                    $passwordEncoder->hashPassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                );
+                $user->setUniqid(uniqid());
+    
+                $entityManager->persist($user);
+                $entityManager->flush();
+    
+                return $this->redirectToRoute('app_login');
+            }catch (\Exception $e) {
+                $form->addError(new FormError($e->getMessage()));
+            }
         }
 
         return $this->render('security/signup.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
             'title' => "Connexion",
             'sections' => $sectionRepository->findAll(),
             'user' => null,
