@@ -1,47 +1,28 @@
-services:
-  mysql:
-    image: mysql:8.0
-    restart: on-failure
-    environment:
-      MYSQL_ALLOW_ROOT_PASSWORD: "yes"
-      MYSQL_DATABASE: sym64michael
-    volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      - app-network
-  nginx:
-      image: nginx:latest
-      ports:
-        - "8080:80"
-      volumes:
-        - './public/:/usr/src/app'
-        - './docker/nginx:/etc/nginx/conf.d/'
-      depends_on:
-        - php
-#  adminer:
-#      image: adminer
-#      restart: always
-#      ports:
-#        - '8081:8080'
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: mysql
-    ports:
-      - "8081:80"
-
-
-  php:
-    build:
-      context: .
-      dockerfile: ./docker/php/Dockerfile
-    volumes:
-      - './public/:/usr/src/app'
-    restart: on-failure
-    env_file:
-      - .env
-
-volumes:
-  mysql_data:
-networks:
-  app-network:
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      bash -c "php bin/console doctrine:database:create --if-not-exists &&
+                php bin/console doctrine:migrations:migrate --no-interaction &&
+                php bin/console doctrine:fixtures:load --no-interaction &&
+                php -S 0.0.0.0:8000 -t public"
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: sym64gregory
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "-ppassword"]
