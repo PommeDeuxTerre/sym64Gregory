@@ -27,31 +27,10 @@ final class CrudUserController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_crud_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_crud_user_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('crud_user/new.html.twig', [
-            'user' => $user,
-            'form' => $form,
-        ]);
-    }
-
     #[Route('/{id}', name: 'app_crud_user_show', methods: ['GET'])]
     public function show(User $user, SectionRepository $SectionRepository): Response
     {
         $sections = $SectionRepository->findAll();
-        $user = $this->getUser();
         return $this->render('crud_user/show.html.twig', [
             'user' => $user,
             'sections' => $sections,
@@ -60,8 +39,9 @@ final class CrudUserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_crud_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, SectionRepository $SectionRepository): Response
     {
+        $sections = $SectionRepository->findAll();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -74,6 +54,8 @@ final class CrudUserController extends AbstractController
         return $this->render('crud_user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
+            'sections' => $sections,
+            'user' => $user,
         ]);
     }
 
