@@ -114,8 +114,7 @@ class AppFixtures extends Fixture
             $manager->persist($section);
         }
 
-        /*
-        $published_articles = array_values(array_filter($articles, fn(Article $article)=>$article->isArticlePublished()));
+        $published_articles = array_values(array_filter($articles, fn(Article $article)=>$article->getPublished()));
 
         // comments
         for ($i=1;$i<=sizeof($published_articles)*5;$i++){
@@ -125,12 +124,11 @@ class AppFixtures extends Fixture
 
             $comment->setUser($rand_user);
             $comment->setArticle($rand_article);
-            $comment->setCommentPublished(true);
             $comment->setCommentMessage($faker->paragraphs(1, true));
             $comment->setCommentDateCreated(new \dateTime('now - ' . mt_rand(0, 4) . ' days'));
             $manager->persist($comment);
         }
-        */
+
         $manager->flush();
     }
 }

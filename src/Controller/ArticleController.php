@@ -36,6 +36,7 @@ class ArticleController extends AbstractController
         $comments = $CommentRepository->findAll();
         // filter out the comments of other articles (yes I should have done that in the up line)
         $comments = array_filter($comments, fn($comment) => $comment->getArticle() == $article);
+        $comments = array_reverse($comments);
 
         $sections = $SectionRepository->findAll();
         return $this->render('article/index.html.twig', [
