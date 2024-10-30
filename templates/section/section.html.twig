@@ -41,7 +41,7 @@
                                 </p>
                                 <p class="article-meta">
                                     Posté par
-                                    <a href="#!">{{ article.user.fullname }}</a>
+                                    <a href="{{ path('app_author', {uniqid: article.user.uniqid}) }}">{{ article.user.fullname }}</a>
                                     le {{ article.articleDatePosted|date('d-m-Y') }}
                                 </p>
                             </div>
