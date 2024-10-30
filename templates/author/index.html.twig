@@ -28,6 +28,7 @@
                             <h3 class="post-subtitle fs-5 fw-normal">{{ article.text|u.truncate(200, '...', false) }}</h3>
                         </a>
                         <a href="{{ path('app_article', {slug: article.titleSlug}) }}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">lire la suite -></a>
+                        {% if article.sections|length > 0 %}
                         <p>
                             Sections: 
                             {% for section in article.sections %}
@@ -38,6 +39,7 @@
                                 {% endif %}
                             {% endfor %}
                         </p>
+                        {% endif %}
                         <p class="article-meta">
                             Posté par
                             <a href="{{ path('app_author', {uniqid: article.user.uniqid}) }}">{{ article.user.fullname }}</a>
