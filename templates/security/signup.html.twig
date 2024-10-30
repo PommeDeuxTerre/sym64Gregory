@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Se connecter{% endblock %}
+
+{% block body %}
+    <!-- Page Header-->
+    <header class="masthead">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>S'inscrire</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <form method="post">
+            {% if form.vars.errors|length > 0 %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for error in form.vars.errors %}
+                            <li>{{ error.message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            {{ form_start(form) }}
+                {{ form_row(form.username, {'label': 'Nom d\'utilisateur', 'attr': {'class': 'form-control', 'autocomplete': 'username', 'required': 'required', 'autofocus': 'autofocus'}}) }}
+                {{ form_row(form.fullname, {'label': 'Nom complet', 'attr': {'class': 'form-control', 'autocomplete': 'Nom complet', 'required': 'required', 'autofocus': 'autofocus'}}) }}
+                {{ form_row(form.email, {'label': 'Email', 'attr': {'class': 'form-control', 'autocomplete': 'Email', 'required': 'required', 'autofocus': 'autofocus'}}) }}
+                {{ form_row(form.password, {'label': 'Mot de passe', 'attr': {'class': 'form-control', 'autocomplete': 'current-password', 'required': 'required', 'type': 'password'}}) }}
+                {{ form_row(form._token) }}
+                <button class="btn btn-lg btn-primary mt-3" type="submit">
+                    S'inscrire
+                </button>
+            {{ form_end(form) }}
+        </form>
+    </div>
+{% endblock %}
