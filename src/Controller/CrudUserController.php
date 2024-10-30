@@ -48,9 +48,13 @@ final class CrudUserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_crud_user_show', methods: ['GET'])]
-    public function show(User $user): Response
+    public function show(User $user, SectionRepository $SectionRepository): Response
     {
+        $sections = $SectionRepository->findAll();
+        $user = $this->getUser();
         return $this->render('crud_user/show.html.twig', [
+            'user' => $user,
+            'sections' => $sections,
             'user' => $user,
         ]);
     }
